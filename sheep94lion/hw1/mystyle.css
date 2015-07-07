@@ -60,5 +60,12 @@
 	background: url(board.png) no-repeat 0 0;
 }
 
+.side
+{
+	width: 250px;
+	height: 300px;
+	float: right;
+}
+
  p
  {text-indent:2em}
