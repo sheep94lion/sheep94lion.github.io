@@ -76,7 +76,7 @@ body
 #bigpic_pic_div
 {
 	width: 500px;
-	display: inline-block;
+	float: left;
 }
 #bigpic_comment
 {
@@ -84,7 +84,7 @@ body
 	top: 0;
 	right: 0;
 	width: 296px;
-	display: inline-block;
+	float: right;
 }
 #turnpage
 {
