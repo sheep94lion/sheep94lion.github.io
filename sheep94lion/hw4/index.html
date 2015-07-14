@@ -12,6 +12,7 @@
 			var page = 1;
 			var index = 1;
 			var picid;
+			var la_pre = [200, 314, 433, 225, 200, 199, 225, 213, 225, 293, 187, 300, 253, 200, 199, 200, 300, 300, 191, 217, 208, 187, 200, 225, 212];
 			function clickpic(){
 				$('.shelter').css('visibility', 'visible');
 				$('#bigpic').attr('src', this.src);
@@ -54,7 +55,7 @@
 				xmlhttp_comment.open("GET", filename, true);
 				xmlhttp_comment.send();
 			}
-			function addonepic(picname){//这个函数的作用是将图片picname插入到最短的一列
+			function addonepic(picname, height){//这个函数的作用是将图片picname插入到最短的一列
 				var minid = 1;//找到最短的一列
 				if (h[2] < h[minid]){
 					minid = 2;
@@ -65,6 +66,7 @@
 				if (h[4] < h[minid]){
 					minid = 4;
 				}
+				h[minid] += height;
 				var image = document.createElement("img");
 				$(image).attr('id', (parseInt(picname)).toString());
 				$(image).attr('src', picname).attr('class', "waterfall-picitem").click(clickpic);
@@ -74,7 +76,7 @@
 				//var html2 = '" class = "waterfall-picitem"></div>';
 				//var html = html1 + picname + html2;
 				$('#col' + minid).append(div);
-				h[minid] += $(image).height();
+				//console.info($(image)[0].height);
 			}
 			addPrimaryPics = function(){
 				$('.waterfall-picitem').click(function(){alert();});
@@ -97,7 +99,7 @@
 				})
 				for (var i = 1; i <= 25; i++){
 					var picname = i + '.jpg';
-					addonepic(picname);
+					addonepic(picname, la_pre[i - 1]);
 				}
 			};
 			window.onload = addPrimaryPics;//加载一开始的25张图片
@@ -108,9 +110,9 @@
 					xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange = function(){
 						if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-							var picarray = eval(xmlhttp.responseText);
+							eval(xmlhttp.responseText);
 							for(var i = 0; i < picarray.length; i++){
-								addonepic(picarray[i]);
+								addonepic(picarray[i], la[i]);
 							}
 							flag = 1;
 						}
