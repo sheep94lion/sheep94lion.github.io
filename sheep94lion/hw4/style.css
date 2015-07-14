@@ -73,3 +73,35 @@ body
 	width: 500px;
 	display: inline-block;
 }
+#bigpic_pic_div
+{
+	width: 500px;
+	display: inline-block;
+}
+#bigpic_comment
+{
+	width: 296px;
+	display: inline-block;
+}
+#turnpage
+{
+	width: 100%;
+	height: 40px;
+}
+#zuo
+{
+	margin-left: 50px;
+	float: left;
+}
+#you
+{
+	margin-right: 50px;
+	float: right;
+}
+#pages
+{
+	text-align: center;
+	width: 90px;
+	height: 40px;
+	float: left;
+}

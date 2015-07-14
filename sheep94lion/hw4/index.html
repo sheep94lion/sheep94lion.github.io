@@ -6,7 +6,9 @@
 		<script src = "jquery-1.11.3.min.js"></script>
 		<script>
 			var xmlhttp;
+			var xmlhttp_comment;
 			var flag = 1;
+			var page = 1;
 			var index = 1;
 			function clickpic(){
 				$('.shelter').css('visibility', 'visible');
@@ -16,8 +18,36 @@
 				$('#bigpic').css('left', (($(window).width()- $('#bigpic').width()) / 2).toString() + 'px');
 				$('#bigpic').css('top', (($(window).height() - $('#bigpic').height()) / 2).toString() + 'px');
 				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
+				$('#bigpic_pic_div').css('height', $('#bigpic_pic_img').css('height'));
+				//下面获取评论 根据图片id获取对应评论，但此处只准备了第一张图片的评论，为所有图片公用。
+				var picid = 1;//var picid = parseInt($(this).attr('id'));
+				xmlhttp_comment = new XMLHttpRequest();
+				xmlhttp_comment.onreadystatechange = function(){
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						var ocomment = eval(xmlhttp.responseText);
+						$('#pages').append(ocomment.nowpage.toString() + '/' + ocomment.allpages.toString());
+						if (ocomment.nowpage == 1){
+							$('#zuo').css('visibility', 'hidden');
+						}else{
+							$('#zuo').css('visibility', 'visible');
+						}
+						if (ocomment.nowpage == ocomment.allpages){
+							$('#you').css('visibility', 'hidden');
+						}else{
+							$('#you').css('visibility', 'visible');
+						}
+						for (var j = 0; j < ocomment.list.length; j++){
+							var li = document.createElement("li");
+							$(li).append(ocomment.list[j]);
+							$('#commentsul').append(li);
+						}
+						
 
-
+					}
+				};
+				var filename = 'comments/1' + '.' + 'page' + '.json';
+				xmlhttp_comment.open("GET", filename, true);
+				xmlhttp_comment.send();
 			}
 			function addonepic(picname){//这个函数的作用是将图片picname插入到最短的一列
 				var minid = '#col1';//找到最短的一列
@@ -31,6 +61,7 @@
 					minid = '#col4';
 				}
 				var image = document.createElement("img");
+				$(image).attr('id', (parseInt(picname)).toString());
 				$(image).attr('src', picname).attr('class', "waterfall-picitem").click(clickpic);
 				var div = document.createElement("div");
 				$(div).attr('class', 'waterfall-item').append(image);
@@ -89,8 +120,18 @@
 				<img id = "bigpic_pic_img">
 			</div>
 			<div id = "bigpic_comment">
+				<div id = "commenttext">
+					<ul id = "commentsul">
+
+					</ul>
+				</div>
+				<div id = "turnpage">
+					<img src = "zuo.png" id = "zuo">
+					<div id = "pages"></div>
+					<img src = "you.png" id = "you">
 				</div>
 			</div>
+		</div>
 		<div id = "whole-waterfall">
 			<div class = "waterfall-col" id = "col1">
 				
