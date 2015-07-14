@@ -45,7 +45,8 @@
 
 					}
 				};
-				var filename = 'comments/1' + '.' + 'page' + '.json';
+				var filename = 'comments/1' + '.' + page + '.json';
+				page++;
 				xmlhttp_comment.open("GET", filename, true);
 				xmlhttp_comment.send();
 			}
