@@ -36,7 +36,7 @@
 				if (($(document).height() - document.body.scrollTop) < 1600){
 					flag = 0;//在此次要加载的图片加载完成之前不再响应scroll事件。
 					xmlhttp = new XMLHttpRequest();
-					xmlhttp.onreadstatechange = function(){
+					xmlhttp.onreadystatechange = function(){
 						if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
 							var picarray = eval(xmlhttp.responseText);
 							for(var i = 0; i < picarray.length; i++){
