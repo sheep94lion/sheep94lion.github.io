@@ -5,6 +5,7 @@
 		<link rel = "stylesheet" type = "text/css" href = "style.css" />
 		<script src = "jquery-1.11.3.min.js"></script>
 		<script>
+			var xmlhttp;
 			var flag = 1;
 			var index = 1;
 			function addonepic(picname){//这个函数的作用是将图片picname插入到最短的一列
@@ -33,7 +34,6 @@
 			$(document).scroll(function(event){//检查是不是快到页面底部了
 				if(flag == 0){return;}
 				if (($(document).height() - document.body.scrollTop) < 1600){
-					var xmlhttp;
 					flag = 0;//在此次要加载的图片加载完成之前不再响应scroll事件。
 					xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadstatechange = function(){
