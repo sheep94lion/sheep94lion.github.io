@@ -25,7 +25,7 @@
 				xmlhttp_comment = new XMLHttpRequest();
 				xmlhttp_comment.onreadystatechange = function(){
 					if (xmlhttp_comment.readyState == 4 && xmlhttp_comment.status == 200){
-						var ocomment = eval(xmlhttp_comment.responseText);
+						eval('var ocomment = 'xmlhttp_comment.responseText);
 						$('#pages').append(ocomment.nowpage.toString() + '/' + ocomment.allpages.toString());
 						if (ocomment.nowpage == 1){
 							$('#zuo').css('visibility', 'hidden');
