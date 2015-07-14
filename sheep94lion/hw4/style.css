@@ -80,6 +80,9 @@ body
 }
 #bigpic_comment
 {
+	position: relative;
+	top: 0;
+	right: 0;
 	width: 296px;
 	display: inline-block;
 }
@@ -107,8 +110,5 @@ body
 }
 #commenttext
 {
-	position: relative;
-	top: 0;
-	right: 0;
 	width: 100%;
 }
