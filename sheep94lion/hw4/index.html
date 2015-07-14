@@ -8,23 +8,42 @@
 			var xmlhttp;
 			var flag = 1;
 			var index = 1;
+			function clickpic(){
+				$('.shelter').css('visibility', 'visible');
+				$('#bigpic').attr('src', this.src);
+				$('#bigpic').css('visibility', 'visible')
+				$('#bigpic_pic_img').attr('src', this.src)
+				$('#bigpic').css('left', (($(window).width()- $('#bigpic').width()) / 2).toString() + 'px');
+				$('#bigpic').css('top', (($(window).height() - $('#bigpic').height()) / 2).toString() + 'px');
+				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
+
+
+			}
 			function addonepic(picname){//这个函数的作用是将图片picname插入到最短的一列
-				var minid = '#1-col';//找到最短的一列
-				if ($('#2-col').height() < $(minid).height()){
-					minid = '#2-col';
+				var minid = '#col1';//找到最短的一列
+				if ($('#col2').height() < $(minid).height()){
+					minid = '#col2';
 				}
-				if ($('#3-col').height() < $(minid).height()){
-					minid = '#3-col';
+				if ($('#col3').height() < $(minid).height()){
+					minid = '#col3';
 				}
-				if ($('#4-col').height() < $(minid).height()){
-					minid = '#4-col';
+				if ($('#col4').height() < $(minid).height()){
+					minid = '#col4';
 				}
-				var html1 = '<div class = "waterfall-item"><img src = "';
-				var html2 = '" class = "waterfall-picitem"></div>';
-				var html = html1 + picname + html2;
-				$(minid).append(html);
+				var image = document.createElement("img");
+				$(image).attr('src', picname).attr('class', "waterfall-picitem").click(clickpic);
+				var div = document.createElement("div");
+				$(div).attr('class', 'waterfall-item').append(image);
+				//var html1 = '<div class = "waterfall-item"><img src = "';
+				//var html2 = '" class = "waterfall-picitem"></div>';
+				//var html = html1 + picname + html2;
+				$(minid).append(div);
 			}
 			addPrimaryPics = function(){
+				$('.waterfall-picitem').click(function(){alert();});
+				setInterval(function(){
+					$('.shelter').css('height', $('body').css('height'));
+				}, 500);
 				for (var i = 1; i <= 25; i++){
 					var picname = i + '.jpg';
 					addonepic(picname);
@@ -62,18 +81,27 @@
 		<audio controls autoplay loop preload class = "audio">
 			<source src = "bg.mp3" type = "audio/mpeg">
 		</audio>
-
+		<div class = "shelter">
+			
+		</div>
+		<div id = "bigpic">
+			<div id = "bigpic_pic_div">
+				<img id = "bigpic_pic_img">
+			</div>
+			<div id = "bigpic_comment">
+				</div>
+			</div>
 		<div id = "whole-waterfall">
-			<div class = "waterfall-col" id = "1-col">
+			<div class = "waterfall-col" id = "col1">
 				
 			</div>
-			<div class = "waterfall-col" id = "2-col">
+			<div class = "waterfall-col" id = "col2">
 				
 			</div>
-			<div class = "waterfall-col" id = "3-col">
+			<div class = "waterfall-col" id = "col3">
 				
 			</div>
-			<div class = "waterfall-col" id = "4-col">
+			<div class = "waterfall-col" id = "col4">
 				
 			</div>
 		</div>
