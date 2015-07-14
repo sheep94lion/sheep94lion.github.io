@@ -24,6 +24,8 @@
 				$('#bigpic_pic_div').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic_comment').css('height', $('#bigpic_pic_img').css('height'));
 				$('#commenttext').css('height', ($('#bigpic_comment').height() - $('#turnpage').height()).toString() - 18 + 'px');
+				$('#close').css('right', $('#bigpic').css('left'));
+				$('#close').css('top', $('#bigpic').css('top'));
 				//下面获取评论 根据图片id获取对应评论，但此处只准备了第一张图片的评论，为所有图片公用。
 				picid = 1;//var picid = parseInt($(this).attr('id'));
 				xmlhttp_comment = new XMLHttpRequest();
@@ -79,7 +81,10 @@
 				//console.info($(image)[0].height);
 			}
 			addPrimaryPics = function(){
-				$('.waterfall-picitem').click(function(){alert();});
+				$('#close').click(function(){
+					$('.shelter').css('visibility', 'hidden');
+					$('#bigpic').css('visibility', 'hidden')
+				});
 				setInterval(function(){
 					$('.shelter').css('height', $('body').css('height'));
 				}, 500);
@@ -142,6 +147,7 @@
 				<img id = "bigpic_pic_img">
 			</div>
 			<div id = "bigpic_comment">
+				<image id = "close" src = "logo/close.png">
 				<div id = "commenttext">
 					<ul id = "commentsul">
 

@@ -116,3 +116,18 @@ body
 {
 	margin-right: 20px;
 }
+#close
+{
+	position: fixed;
+	height: 40px;
+	width: 40px;
+	z-index: 3;
+	opacity: 0.7;
+	transition: opacity .3s;
+   	-webkit-transition: opacity .3s;
+  	-moz-transition: opacity .3s;
+}
+#close:hover
+{
+	opacity: 1;
+}
