@@ -26,7 +26,7 @@
 				xmlhttp_comment.onreadystatechange = function(){
 					if (xmlhttp_comment.readyState == 4 && xmlhttp_comment.status == 200){
 						eval('var ocomment = ' + xmlhttp_comment.responseText);
-						$('#pages').append(ocomment.nowpage.toString() + '/' + ocomment.allpages.toString());
+						$('#pages').html(ocomment.nowpage.toString() + '/' + ocomment.allpages.toString());
 						if (ocomment.nowpage == 1){
 							$('#zuo').css('visibility', 'hidden');
 						}else{
@@ -37,6 +37,7 @@
 						}else{
 							$('#you').css('visibility', 'visible');
 						}
+						$('#commentsul').html('');
 						for (var j = 0; j < ocomment.list.length; j++){
 							var li = document.createElement("li");
 							$(li).append(ocomment.list[j]);
