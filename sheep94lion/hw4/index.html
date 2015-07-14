@@ -20,6 +20,8 @@
 				$('#bigpic').css('top', (($(window).height() - $('#bigpic').height()) / 2).toString() + 'px');
 				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic_pic_div').css('height', $('#bigpic_pic_img').css('height'));
+				$('#bigpic_comment').css('height', $('#bigpic_pic_img').css('height'));
+				$('#commenttext').css('height', ($('#bigpic_comment').height() - $('#turnpage').height()).toString() - 18 + 'px');
 				//下面获取评论 根据图片id获取对应评论，但此处只准备了第一张图片的评论，为所有图片公用。
 				picid = 1;//var picid = parseInt($(this).attr('id'));
 				xmlhttp_comment = new XMLHttpRequest();

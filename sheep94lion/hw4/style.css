@@ -105,3 +105,7 @@ body
 	height: 40px;
 	float: left;
 }
+#commenttext
+{
+	width: 100%;
+}
