@@ -1,5 +1,6 @@
 body
 {
+	width: 100%;
 	background: url(bg.jpg) repeat;
 	background-attachment: fixed;
 	margin: 0 auto 0 auto;
@@ -9,7 +10,7 @@ body
 	margin-right: 15px;
 	margin-left: 15px;
 	display: inline-block;
-	width: 300px;
+	width: 15%;
 	vertical-align: top;
 }
 .waterfall-item
