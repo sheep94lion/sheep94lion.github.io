@@ -72,14 +72,10 @@
 				h[minid] += height;
 				var image = document.createElement("img");
 				$(image).attr('id', (parseInt(picname)).toString());
-				$(image).attr('src', picname).attr('class', "waterfall-picitem").click(clickpic);
+				$(image).attr('src', 'images/' + picname).attr('class', "waterfall-picitem").click(clickpic);
 				var div = document.createElement("div");
 				$(div).attr('class', 'waterfall-item').append(image);
-				//var html1 = '<div class = "waterfall-item"><img src = "';
-				//var html2 = '" class = "waterfall-picitem"></div>';
-				//var html = html1 + picname + html2;
 				$('#col' + minid).append(div);
-				//console.info($(image)[0].height);
 			}
 			addPrimaryPics = function(){
 				$('#close').click(function(){
@@ -125,7 +121,7 @@
 							flag = 1;
 						}
 					}
-					var s = index.toString() + '.json';
+					var s = 'data/' + index.toString() + '.json';
 					xmlhttp.open("GET", s, true);
 					xmlhttp.send();
 					index++;
@@ -157,9 +153,9 @@
 					</ul>
 				</div>
 				<div id = "turnpage">
-					<img src = "zuo.png" id = "zuo">
+					<img src = "logo/zuo.png" id = "zuo">
 					<div id = "pages"></div>
-					<img src = "you.png" id = "you">
+					<img src = "logo/you.png" id = "you">
 				</div>
 			</div>
 		</div>
