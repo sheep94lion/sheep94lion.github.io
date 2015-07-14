@@ -36,5 +36,5 @@ Element.prototype.attr = function () {//输入一个或两个参数，且均为�
 	}
 };
 document.addEventListener('scroll', function(){
-	if ($)
+	//if ($)
 })
