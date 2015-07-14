@@ -10,6 +10,7 @@
 			var flag = 1;
 			var page = 1;
 			var index = 1;
+			var picid;
 			function clickpic(){
 				$('.shelter').css('visibility', 'visible');
 				$('#bigpic').attr('src', this.src);
@@ -20,7 +21,7 @@
 				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic_pic_div').css('height', $('#bigpic_pic_img').css('height'));
 				//下面获取评论 根据图片id获取对应评论，但此处只准备了第一张图片的评论，为所有图片公用。
-				var picid = 1;//var picid = parseInt($(this).attr('id'));
+				picid = 1;//var picid = parseInt($(this).attr('id'));
 				xmlhttp_comment = new XMLHttpRequest();
 				xmlhttp_comment.onreadystatechange = function(){
 					if (xmlhttp_comment.readyState == 4 && xmlhttp_comment.status == 200){
@@ -45,8 +46,7 @@
 
 					}
 				};
-				var filename = 'comments/1' + '.' + page + '.json';
-				page++;
+				var filename = 'comments/' + picid + '.' + page + '.json';
 				xmlhttp_comment.open("GET", filename, true);
 				xmlhttp_comment.send();
 			}
@@ -76,6 +76,20 @@
 				setInterval(function(){
 					$('.shelter').css('height', $('body').css('height'));
 				}, 500);
+				$('#zuo').click(function(){//向前翻页
+					if (page > 1){
+						page--;
+					}
+					var filename = 'comments/' + picid + '.' + page + '.json';
+					xmlhttp_comment.open("GET", filename, true);
+					xmlhttp_comment.send();
+				});
+				$('#you').click(function(){
+					page++;
+					var filename = 'comments/' + picid + '.' + page + '.json';
+					xmlhttp_comment.open("GET", filename, true);
+					xmlhttp_comment.send();
+				})
 				for (var i = 1; i <= 25; i++){
 					var picname = i + '.jpg';
 					addonepic(picname);
