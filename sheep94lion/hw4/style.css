@@ -26,3 +26,20 @@ body
 {
 	width: 330px;
 }
+.audio
+{
+	display: inline-block;
+	position: fixed;
+	bottom: 20px;
+	right: 5px;
+	box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+	opacity: 0.7;
+  	transition: opacity .3s;
+  	-webkit-transition: opacity .3s;
+  	-moz-transition: opacity .3s;
+}
+.audio:hover
+{
+  opacity: 1;
+};
