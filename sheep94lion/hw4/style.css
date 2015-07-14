@@ -95,11 +95,13 @@ body
 {
 	margin-left: 50px;
 	float: left;
+	visibility: inherit;
 }
 #you
 {
 	margin-right: 50px;
 	float: right;
+	visibility: inherit;
 }
 #pages
 {
