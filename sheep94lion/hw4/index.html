@@ -6,6 +6,7 @@
 		<script src = "jquery-1.11.3.min.js"></script>
 		<script>
 			var xmlhttp;
+			var h = [0, 0, 0, 0, 0];//四列的高度
 			var xmlhttp_comment;
 			var flag = 1;
 			var page = 1;
@@ -54,15 +55,15 @@
 				xmlhttp_comment.send();
 			}
 			function addonepic(picname){//这个函数的作用是将图片picname插入到最短的一列
-				var minid = '#col1';//找到最短的一列
-				if ($('#col2').height() < $(minid).height()){
-					minid = '#col2';
+				var minid = 1;//找到最短的一列
+				if (h[2] < h[minid]){
+					minid = 2;
 				}
-				if ($('#col3').height() < $(minid).height()){
-					minid = '#col3';
+				if (h[3] < h[minid]){
+					minid = 3;
 				}
-				if ($('#col4').height() < $(minid).height()){
-					minid = '#col4';
+				if (h[4] < h[minid]){
+					minid = 4;
 				}
 				var image = document.createElement("img");
 				$(image).attr('id', (parseInt(picname)).toString());
@@ -72,7 +73,8 @@
 				//var html1 = '<div class = "waterfall-item"><img src = "';
 				//var html2 = '" class = "waterfall-picitem"></div>';
 				//var html = html1 + picname + html2;
-				$(minid).append(div);
+				$('#col' + minid).append(div);
+				h[minid] += $(image).height();
 			}
 			addPrimaryPics = function(){
 				$('.waterfall-picitem').click(function(){alert();});
