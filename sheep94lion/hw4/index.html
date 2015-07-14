@@ -23,8 +23,8 @@
 				var picid = 1;//var picid = parseInt($(this).attr('id'));
 				xmlhttp_comment = new XMLHttpRequest();
 				xmlhttp_comment.onreadystatechange = function(){
-					if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-						var ocomment = eval(xmlhttp.responseText);
+					if (xmlhttp_comment.readyState == 4 && xmlhttp_comment.status == 200){
+						var ocomment = eval(xmlhttp_comment.responseText);
 						$('#pages').append(ocomment.nowpage.toString() + '/' + ocomment.allpages.toString());
 						if (ocomment.nowpage == 1){
 							$('#zuo').css('visibility', 'hidden');
