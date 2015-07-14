@@ -33,8 +33,8 @@
 			window.onload = addPrimaryPics;//加载一开始的25张图片
 			$(document).scroll(function(event){//检查是不是快到页面底部了
 				if(flag == 0){return;}
+				flag = 0;//在此次要加载的图片加载完成之前不再响应scroll事件。
 				if (($(document).height() - document.body.scrollTop) < 1600){
-					flag = 0;//在此次要加载的图片加载完成之前不再响应scroll事件。
 					xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange = function(){
 						if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
@@ -50,6 +50,9 @@
 					xmlhttp.send();
 					index++;
 					if(index == 4){flag = 0;}
+				}
+				else{
+					flag = 1;
 				}
 			});
 		</script>
