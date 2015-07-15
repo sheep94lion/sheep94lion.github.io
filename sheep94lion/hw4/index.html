@@ -27,6 +27,10 @@
 				flag_ginfo = 1;
      			lat = position.coords.latitude;
     			lon = position.coords.longitude;
+    			for (var i = 0; i < pic_array_all.length; i++){
+    				var dist = distance(lat, lon, pic_array_all[i].position.latitude, pic_array_all[i].position.longitude, 'K');
+    				$('#p' + (i + 1)).html(dist.toString());
+    			}
 			}
 
 			function showError(error) {
@@ -124,13 +128,13 @@
 				var div = document.createElement("div");
 				$(div).attr('class', 'waterfall-item').append(image);
 				var p = document.createElement('p');
-				var dist = distance(lat, lon, plat, plon, 'K')
+				var dist = distance(lat, lon, plat, plon, 'K');
 				if (flag_ginfo){
 					var p_content = dist.toString() + '千米';
 				}else{
 					var p_content = "流年似水 留下美好瞬间";//获取位置信息失败时显示的内容
 				}
-				$(p).html(p_content).attr('class', 'distance');
+				$(p).html(p_content).attr('class', 'distance').attr('id', 'p' + (parseInt(picname)).toString());
 				$(div).append(p);
 				$('#col' + minid).append(div);
 			}
