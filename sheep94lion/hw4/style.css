@@ -21,18 +21,44 @@ body
 	vertical-align: top;
 }
 
+.distance
+{
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	margin-top: 0;
+	margin-bottom: 0;
+	white-space: nowrap;
+	font-family: "微软雅黑";
+	font-size: 25px;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white; 
+	//display: none;
+	transition: width .3s;
+    -webkit-transition: width .3s;
+    -moz-transition: width .3s;
+}
+
 .waterfall-picitem
 {
 	margin: 4px auto 4px auto;
 	width: 90%;
 	transition: width .3s;
-   -webkit-transition: width .3s;
-   -moz-transition: width .3s;
+    -webkit-transition: width .3s;
+    -moz-transition: width .3s;
 }
-.waterfall-picitem:hover
+.waterfall-item:hover .waterfall-picitem
 {
 	width: 100%;
 }
+
+.waterfall-item:hover p
+{
+	width: 100%;
+	height: auto;
+	//display: block;
+} 
+
 .audio
 {
 	display: inline-block;
@@ -56,7 +82,7 @@ body
 	background-color: #333;
 	width: 100%;
 	visibility: hidden;
-	z-index: 1;
+	z-index: 2;
 	opacity: 0.7;
 }
 
@@ -64,7 +90,7 @@ body
 {
 	width: 800px;
 	visibility: hidden;
-	z-index: 2;
+	z-index: 3;
 	opacity: 1;
 	background-color: white;
 	position: fixed;
@@ -123,7 +149,7 @@ body
 	position: fixed;
 	height: 40px;
 	width: 40px;
-	z-index: 3;
+	z-index: 4;
 	opacity: 0.7;
 	transition: opacity .3s;
    	-webkit-transition: opacity .3s;
@@ -133,3 +159,5 @@ body
 {
 	opacity: 1;
 }
+
+
