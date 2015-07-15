@@ -168,13 +168,23 @@ ul
 {
 	width: 40px;
 	height: 40px;
-	border-radius: 150px;
-	-webkit-border-radius: 150px;
-	-moz-border-radius: 150px;
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
 }
-.head
+.head_div
 {
-	width: 100%;
+	width: 80%;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.head_pic
+{
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	width:100%;
 }
 
 
