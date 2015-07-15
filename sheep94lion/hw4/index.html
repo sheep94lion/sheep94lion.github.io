@@ -29,7 +29,8 @@
     			lon = position.coords.longitude;
     			for (var i = 0; i < pic_array_all.length; i++){
     				var dist = distance(lat, lon, pic_array_all[i].position.latitude, pic_array_all[i].position.longitude, 'K');
-    				$('#p' + (i + 1)).html(dist.toString());
+    				dist = Math.floor(dist);
+    				$('#p' + (i + 1)).html(dist.toString() + "千米");
     			}
 			}
 
