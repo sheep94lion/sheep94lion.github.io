@@ -84,6 +84,8 @@ ul
 	position: absolute;
 	background-color: #333;
 	width: 100%;
+	left: 0;
+	top: 0;
 	visibility: hidden;
 	z-index: 2;
 	opacity: 0.7;
@@ -169,6 +171,10 @@ ul
 	border-radius: 150px;
 	-webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
+}
+.head
+{
+	width: 100%;
 }
 
 

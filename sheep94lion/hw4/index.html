@@ -68,18 +68,17 @@
 
 			function clickpic(){
 				page = 1;
-				$('.shelter').css('visibility', 'visible');
-				$('#bigpic').attr('src', this.src);
-				$('#bigpic').css('visibility', 'visible')
-				$('#bigpic_pic_img').attr('src', this.src)
+				$('#bigpic_pic_img').attr('src', this.src);
+				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic').css('left', (($(window).width()- $('#bigpic').width()) / 2).toString() + 'px');
 				$('#bigpic').css('top', (($(window).height() - $('#bigpic').height()) / 2).toString() + 'px');
-				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic_pic_div').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic_comment').css('height', $('#bigpic_pic_img').css('height'));
 				$('#commenttext').css('height', ($('#bigpic_comment').height() - $('#turnpage').height()).toString() - 18 + 'px');
 				$('#close').css('right', $('#bigpic').css('left'));
 				$('#close').css('top', $('#bigpic').css('top'));
+				$('.shelter').css('visibility', 'visible');
+				$('#bigpic').css('visibility', 'visible');
 				//下面获取评论 根据图片id获取对应评论，但此处只准备了第一张图片的评论，为所有图片公用。
 				picid = 1;//var picid = parseInt($(this).attr('id'));
 				xmlhttp_comment = new XMLHttpRequest();
@@ -99,13 +98,13 @@
 						}
 						$('#commentsul').html('');
 						var n = ocomment.list.length;
-						if ($('#bigpic').css('height') < 380){
+						if ($('#bigpic').height() < 380){
 							n = 3;
 						};
-						if ($('#bigpic').css('height') < 280) {
+						if ($('#bigpic').height() < 280) {
 							n = 2;
 						};
-						if ($('#bigpic').css('height') < 200) {
+						if ($('#bigpic').height() < 200) {
 							n = 1;
 						};
 						for (var j = 0; j < n; j++){
@@ -222,6 +221,9 @@
 		<audio controls autoplay loop preload class = "audio">
 			<source src = "bg.mp3" type = "audio/mpeg">
 		</audio>
+		<div class = "head">
+			<img src = "head.jpg" class = "head">
+		</div>
 		<div class = "shelter">
 			
 		</div>
