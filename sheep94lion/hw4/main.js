@@ -15,8 +15,7 @@
     			} else { 
         			alert("浏览器不支持位置获取");
     			}
-			}
-
+			};
 			function solvePosition(position) {//获取位置信息成功后的处理函数
 				flag_ginfo = 1;
      			lat = position.coords.latitude;
@@ -63,6 +62,8 @@
 			function clickpic(){//图片单击响应函数
 				page = 1;
 				//下面这片是定义大图展示界面的尺寸和位置（居中）
+				$('#bigpic').css('opacity', '0');
+				console.info($('#bigpic').css('opacity'));
 				$('#bigpic_pic_img').attr('src', this.src);
 				$('#bigpic').css('height', $('#bigpic_pic_img').css('height'));
 				$('#bigpic').css('left', (($(window).width()- $('#bigpic').width()) / 2).toString() + 'px');
@@ -139,8 +140,7 @@
 				$(image).attr('id', (parseInt(picname)).toString());
 				$(image).attr('src', 'images/' + picname).attr('class', "waterfall-picitem").click(clickpic);
 				$(image).load(function(){//加载后经过过渡动画呈现图片
-					$(this).animate({width: "90%"});
-					$('.waterfall-item').css('background-image', 'url()');
+					$(this).animate({opacity: 1});
 				});
 				var div = document.createElement("div");
 				$(div).attr('class', 'waterfall-item').append(image);
@@ -157,12 +157,20 @@
 				$('#col' + minid).append(div);
 			}
 			addPrimaryPics = function(){//记载最初25张图片的函数
+				$('.head_pic').attr('src', 'head.jpg').load(function(){
+					$(this).animate({opacity: '1'});
+				});
 				$('#close').click(function(){
 					$('.shelter').css('visibility', 'hidden');
-					$('#bigpic').css('visibility', 'hidden')
+					$('#bigpic').css('opacity', 0);
+					$('#bigpic').css('visibility', 'hidden');
 					$('#zuo').css('visibility', 'hidden');
 					$('#you').css('visibility', 'hidden');
 				});
+				$('#bigpic_pic_img').load(function(){
+					console.info($('#bigpic').css('opacity') + 'p');
+					$('#bigpic').animate({opacity: "1"});
+				});//设置过渡效果
 				setInterval(function(){//调整遮罩的大小，使其依然能覆盖整个body
 					$('.shelter').css('height', $('body').css('height'));
 				}, 500);
