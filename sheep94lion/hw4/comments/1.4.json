@@ -12,7 +12,7 @@
 		},
 		{
 			icon: "2.png",
-			username: "朱子晨"，
+			username: "朱子晨",
 			text: "您大点声不费电！",
 			date: {
 				year: 2014,

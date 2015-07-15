@@ -12,7 +12,7 @@
 		},
 		{
 			icon: "2.png",
-			username: "朱子晨"，
+			username: "朱子晨",
 			text: "咳!该说的说，不该说的小声说。",
 			date: {
 				year: 2014,
