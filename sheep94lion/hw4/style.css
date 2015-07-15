@@ -186,5 +186,14 @@ ul
 	-moz-border-radius: 20px;
 	width:100%;
 }
+#loadingstat
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 70%;
+	font-size: 40px;
+	font-family: "微软雅黑";
+	opacity: 0.8;
+}
 
 
