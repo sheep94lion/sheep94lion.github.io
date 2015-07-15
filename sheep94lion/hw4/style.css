@@ -45,7 +45,7 @@ ul
 .waterfall-picitem
 {
 	margin: 4px auto 4px auto;
-	width: 90%;
+	width: 0;
 	transition: width .3s;
     -webkit-transition: width .3s;
     -moz-transition: width .3s;
@@ -53,6 +53,13 @@ ul
 .waterfall-item:hover .waterfall-picitem
 {
 	width: 100%;
+}
+
+.waterfall-item
+{
+	background-image: url("loading.gif");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .waterfall-item:hover p
