@@ -98,7 +98,17 @@
 							$('#you').css('visibility', 'visible');
 						}
 						$('#commentsul').html('');
-						for (var j = 0; j < ocomment.list.length; j++){
+						var n = ocomment.list.length;
+						if ($('#bigpic').css('height') < 380){
+							n = 3;
+						};
+						if ($('#bigpic').css('height') < 280) {
+							n = 2;
+						};
+						if ($('#bigpic').css('height') < 200) {
+							n = 1;
+						};
+						for (var j = 0; j < n; j++){
 							var date = ocomment.list[j].date;
 							var date_s = date.year.toString() + "年" + date.month + "月" + date.day + "日";
 							var li = document.createElement("li");
