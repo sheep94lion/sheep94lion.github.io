@@ -102,7 +102,7 @@
 							var date = ocomment.list[j].date;
 							var date_s = date.year.toString() + "年" + date.month + "月" + date.day + "日";
 							var li = document.createElement("li");
-							var li_img = documet.createElement("img");
+							var li_img = document.createElement("img");
 							$(li_img).attr("class", "li_img").attr("src", "icon/" + ocomment.list[j].icon);
 							$(li).append(li_img);
 							$(li).append(ocomment.list[j].username + ' ' + date_s);
