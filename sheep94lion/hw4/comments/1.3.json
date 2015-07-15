@@ -1,9 +1,45 @@
 {
 	list: [
-		"多年的小萝莉还是熬成了祥林嫂……",
-		"咳!该说的说，不该说的小声说。",
-		"从天堂到地狱，哥只是路过人间。",
-		"吃，我所欲也，瘦，亦我所欲也，二者不可得兼，我了个去也。"
+		{
+			icon: "1.png",
+			username: "赵毅",
+			text: "多年的小萝莉还是熬成了祥林嫂……",
+			date: {
+				year: 2015,
+				month: 7,
+				day: 15
+			}
+		},
+		{
+			icon: "2.png",
+			username: "朱子晨"，
+			text: "咳!该说的说，不该说的小声说。",
+			date: {
+				year: 2014,
+				month: 7,
+				day: 15
+			}
+		},
+		{
+			icon: "3.png",
+			username: "徐京傲",
+			text: "从天堂到地狱，哥只是路过人间。",
+			date: {
+				year: 2014,
+				month: 2,
+				day: 15
+			}
+		},
+		{
+			icon: "4.png",
+			username: "程加信",
+			text: "吃，我所欲也，瘦，亦我所欲也，二者不可得兼，我了个去也。",
+			date: {
+				year: 2014,
+				month: 1,
+				day: 15
+			}
+		}
 	],
 	allpages: 4,
 	nowpage: 3

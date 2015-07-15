@@ -20,7 +20,10 @@ body
 	display: inline-block;
 	vertical-align: top;
 }
-
+ul
+{
+	list-style-type: none;
+}
 .distance
 {
 	width: 0;
@@ -158,6 +161,14 @@ body
 #close:hover
 {
 	opacity: 1;
+}
+.li_img
+{
+	width: 40px;
+	height: 40px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
 }
 
 

@@ -99,8 +99,16 @@
 						}
 						$('#commentsul').html('');
 						for (var j = 0; j < ocomment.list.length; j++){
+							var date = ocomment.list[j].date;
+							var date_s = date.year.toString() + "年" + date.month + "月" + date.day + "日";
 							var li = document.createElement("li");
-							$(li).append(ocomment.list[j]);
+							var li_img = documet.createElement("img");
+							$(li_img).attr("class", "li_img").attr("src", "icon/" + ocomment.list[j].icon);
+							$(li).append(li_img);
+							$(li).append(ocomment.list[j].username + ' ' + date_s);
+							$('#commentsul').append(li);
+							li = document.createElement("li");
+							$(li).html(ocomment.list[j].text);
 							$('#commentsul').append(li);
 						}
 						
@@ -130,6 +138,7 @@
 				$(div).attr('class', 'waterfall-item').append(image);
 				var p = document.createElement('p');
 				var dist = distance(lat, lon, plat, plon, 'K');
+				dist = Math.floor(dist);
 				if (flag_ginfo){
 					var p_content = dist.toString() + '千米';
 				}else{
