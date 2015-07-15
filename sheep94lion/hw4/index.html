@@ -12,7 +12,7 @@
 			var page = 1;
 			var index = 1;
 			var picid;
-			var la_pre = [200, 314, 433, 225, 200, 199, 225, 213, 225, 293, 187, 300, 253, 200, 199, 200, 300, 300, 191, 217, 208, 187, 200, 225, 212];
+			var pic_array_all = eval('[{"picname":"1.jpg","height":228,"position":{"latitude":10,"longitude":10}},{"picname":"2.jpg","height":359,"position":{"latitude":20,"longitude":20}},{"picname":"3.jpg","height":494,"position":{"latitude":30,"longitude":30}},{"picname":"4.jpg","height":257,"position":{"latitude":40,"longitude":40}},{"picname":"5.jpg","height":228,"position":{"latitude":50,"longitude":50}},{"picname":"6.jpg","height":227,"position":{"latitude":60,"longitude":60}},{"picname":"7.jpg","height":257,"position":{"latitude":70,"longitude":70}},{"picname":"8.jpg","height":243,"position":{"latitude":80,"longitude":80}},{"picname":"9.jpg","height":257,"position":{"latitude":0,"longitude":90}},{"picname":"10.jpg","height":335,"position":{"latitude":10,"longitude":100}},{"picname":"11.jpg","height":213,"position":{"latitude":20,"longitude":110}},{"picname":"12.jpg","height":343,"position":{"latitude":30,"longitude":120}},{"picname":"13.jpg","height":289,"position":{"latitude":40,"longitude":130}},{"picname":"14.jpg","height":228,"position":{"latitude":50,"longitude":140}},{"picname":"15.jpg","height":227,"position":{"latitude":60,"longitude":150}},{"picname":"16.jpg","height":228,"position":{"latitude":70,"longitude":160}},{"picname":"17.jpg","height":343,"position":{"latitude":80,"longitude":170}},{"picname":"18.jpg","height":343,"position":{"latitude":0,"longitude":0}},{"picname":"19.jpg","height":218,"position":{"latitude":10,"longitude":10}},{"picname":"20.jpg","height":248,"position":{"latitude":20,"longitude":20}},{"picname":"21.jpg","height":237,"position":{"latitude":30,"longitude":30}},{"picname":"22.jpg","height":213,"position":{"latitude":40,"longitude":40}},{"picname":"23.jpg","height":228,"position":{"latitude":50,"longitude":50}},{"picname":"24.jpg","height":257,"position":{"latitude":60,"longitude":60}},{"picname":"25.jpg","height":242,"position":{"latitude":70,"longitude":70}}]');//一开始加载的25张图片的信息
 			function clickpic(){
 				page = 1;
 				$('.shelter').css('visibility', 'visible');
@@ -101,9 +101,10 @@
 					xmlhttp_comment.open("GET", filename, true);
 					xmlhttp_comment.send();
 				})
-				for (var i = 1; i <= 25; i++){
-					var picname = i + '.jpg';
-					addonepic(picname, la_pre[i - 1]);
+				for (var i = 0; i < pic_array_all.length; i++){
+					var picname = pic_array_all[i].picname;
+					var h = pic_array_all[i].height;
+					addonepic(picname, h);
 				}
 			};
 			window.onload = addPrimaryPics;//加载一开始的25张图片
@@ -114,9 +115,10 @@
 					xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange = function(){
 						if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-							eval(xmlhttp.responseText);
-							for(var i = 0; i < picarray.length; i++){
-								addonepic(picarray[i], la[i]);
+							var pic_array_part = eval(xmlhttp.responseText);
+							for(var i = 0; i < pic_array_part.length; i++){
+								pic_array_all.push(pic_array_part[i]);
+								addonepic(pic_array_part[i].picname, pic_array_part[i].height);
 							}
 							flag = 1;
 						}
