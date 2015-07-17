@@ -81,10 +81,12 @@ function submitName(){//提交昵称
 		});
 		p.then(function(name){//异步操作：成功push之后再次检查列表是否有重名，从而避免两台机器同时用相同昵称登录时出现重名的情况
 			myNamelistRef.once('value', function(snapshot){
+				var flag = 1;
 				snapshot.forEach(function(childsnapshot){
 					var childData = childsnapshot.val();
 					var key = childsnapshot.key();
-					if (childData.name == name){
+					if (childData.name == name && flag){
+						flag = 0;
 						if (key != newnameRef.key()){
 								newnameRef.remove();
 								$('#nametips').html("该昵称已被占用，请重新输入");
@@ -99,7 +101,6 @@ function submitName(){//提交昵称
 							newnameRef.onDisconnect().remove();
 							myNameRef = newnameRef;
 						}
-						break;
 					}
 				});
 			});
