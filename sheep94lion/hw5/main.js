@@ -7,13 +7,13 @@ var myName;
 var myMessageRef = myFirebaseRef.child('message');
 window.onload = function(){
 	inputName();
-	myNamelistRef.on('value', function(snapshot){
+	myNamelistRef.on('value', function(snapshot){//在线列表信息获取
 		namelist = snapshot.val();
 		updateNamelist();
 	}, function(e){
 		alert("加载用户列表失败\n错误信息：\n" + e);
 	});
-	myMessageRef.on('child_added', function(snapshot){
+	myMessageRef.on('child_added', function(snapshot){//消息数据获取
 		var message = snapshot.val();
 		var name = message.name;
 		var text = message.text;
@@ -37,11 +37,18 @@ function updateNamelist(){//刷新用户列表
 		}
 	}
 };
-function inputName(){//展开输入昵称界面
+function inputName(){//展开输入昵称界面，利用Promise设定过渡效果顺序,避免callback hell
 	$('#inputname').css('left', (($(window).width() - 400) / 2).toString() + 'px');//确定窗口位置，使其居中
 	$('#inputname').css('top', (($(window).height() - 300) / 2).toString() + 'px');
 	$('.shelter').css('visibility', 'visible');
-	$('#inputname').css('visibility', 'visible').animate({opacity: '1'});
+	var p = new Promise(function(resolve, reject){
+		$('.shelter').animate({opacity: '0.7'}, 'fast', 'linear', function(){
+			resolve(1);
+		});
+	});
+	p.then(function(v){
+		$('#inputname').css('visibility', 'visible').animate({opacity: '1'}, 'normal');
+	});
 };
 function submitName(){//提交昵称
 	var name = $('#nickname').val();
@@ -62,7 +69,7 @@ function submitName(){//提交昵称
 				}
 			});
 		});
-		p.then(function(name){//成功push之后再次检查列表是否有重名，从而避免两台机器同时用相同昵称登录时出现重名的情况
+		p.then(function(name){//异步操作：成功push之后再次检查列表是否有重名，从而避免两台机器同时用相同昵称登录时出现重名的情况
 			myNamelistRef.once('value', function(snapshot){
 				namelist = snapshot.val();
 				for (var key in namelist){
@@ -72,9 +79,12 @@ function submitName(){//提交昵称
 								newnameRef.remove();
 								$('#nametips').html("该昵称已被占用，请重新输入");
 							}else{
-								$('#inputname').animate({opacity: '0'});
-								$('#inputname').css('visibility', 'hidden');
-								$('.shelter').css('visibility', 'hidden');
+								$('#inputname').animate({opacity: '0'}, 'normal', 'linear', function(){
+									$('#inputname').css('visibility', 'hidden');
+									$('.shelter').animate({opacity: '0'}, 'normal', 'linear', function(){
+										$('.shelter').css('visibility', 'hidden');
+									});
+								});//淡出效果（异步操作）
 								myName = name;
 								newnameRef.onDisconnect().remove();
 							}
