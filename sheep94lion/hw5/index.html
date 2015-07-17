@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta http-equiv = "Content-Type" content = "text/html; charset=UTF-8">
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script type="text/javascript" src = "main.js"></script>
+    <link rel = "stylesheet" type = "text/css" href = "style.css" />
+  </head>
+  <body>
+    <div class = "shelter"></div>
+    <div id = "inputname">
+      <p id = "nametips">请输入您的昵称</p>
+      <input type = "value" id = "nickname">
+      <button type = "button" onclick = "submitName()" id = "bn_submitname">确定</button>
+    </div>
+    <div id = "wholechatwindow">
+      <div class = "container" id = "namelist">
+        <ul id = 'namelist_ul'></ul>
+      </div>
+      <div class = "container" id = "chatwindow">
+        <div class = "container" id = "messagebox"></div>
+        <div class = "container" id = "inputbox">
+          <textarea rows = "4" cols = "50" id = "messagetext"></textarea>
+          <button type = "button" onclick = "send()" id = "send">发送</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
