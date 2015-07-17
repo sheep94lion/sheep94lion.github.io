@@ -130,6 +130,7 @@ function send(){//发送消息
 	});
 }
 function enterChatroom(i){//进入聊天室i，
+	$('#roomtips').html('聊天室' + i + '在线列表');
 	//处理当前所在聊天室的数据
 	chatroom = i;
 	$('#messagebox').html('');
