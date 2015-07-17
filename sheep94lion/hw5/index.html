@@ -7,11 +7,18 @@
     <link rel = "stylesheet" type = "text/css" href = "style.css" />
   </head>
   <body>
+
     <div class = "shelter"></div>
     <div id = "inputname">
       <p id = "nametips">请输入您的昵称</p>
       <input type = "value" id = "nickname">
       <button type = "button" onclick = "submitName()" id = "bn_submitname">确定</button>
+    </div>
+    <div id = "switchroom">
+      <button class = "switchbtn" onclick = "enterChatroom(1)">进入聊天室1</button>
+      <button class = "switchbtn" onclick = "enterChatroom(2)">进入聊天室2</button>
+      <button class = "switchbtn" onclick = "enterChatroom(3)">进入聊天室3</button>
+      <button class = "switchbtn" onclick = "enterChatroom(4)">进入聊天室4</button>
     </div>
     <div id = "wholechatwindow">
       <div class = "container" id = "namelist">

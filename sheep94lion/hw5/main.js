@@ -1,12 +1,19 @@
 ;
 var namelist;//在线用户列表
-var myFirebaseRef = new Firebase("https://shining-fire-9708.firebaseio.com/");
-var myNamelistRef = myFirebaseRef.child('namelist');
-var mayNameRef;
+var myFirebaseRootRef = new Firebase("https://shining-fire-9708.firebaseio.com/");
+var myFirebaseRef;
+var myNameRef;
 var myName;
-var myMessageRef = myFirebaseRef.child('message');
+var chatroom = 1;//一共四个聊天室，默认进入1聊天室。
+var myMessageRef;
 window.onload = function(){
 	inputName();
+	init();
+};
+function init(){
+	myFirebaseRef = myFirebaseRootRef.child(chatroom.toString());
+	myNamelistRef = myFirebaseRootRef.child('namelist');
+	myMessageRef = myFirebaseRef.child('message');
 	myNamelistRef.on('value', function(snapshot){//在线列表信息获取
 		namelist = snapshot.val();
 		updateNamelist();
@@ -21,6 +28,8 @@ window.onload = function(){
 			p = document.createElement('p');
 			$(p).html(name + ':' + text);
 			$('#messagebox').append(p);
+			var h = document.getElementById("messagebox").scrollHeight;
+			$("#messagebox").animate({scrollTop: h.toString()}, 300);//滚动到底部
 		}
 	});
 };
@@ -28,8 +37,9 @@ function updateNamelist(){//刷新用户列表
 	$('#namelist_ul').html('');
 	for (var key in namelist){
 		if (namelist.hasOwnProperty(key)){
-			value = namelist[key];
-			if (value != "管理员"){//“管理员”用来保证数据库中该项不为空
+			value = namelist[key].name;
+			roomnumber = namelist[key].roomnumber;
+			if (value != "管理员" && roomnumber == chatroom){//“管理员”用来保证数据库中该项不为空
 			var li = document.createElement('li');
 			$(li).html(value);
 			$('#namelist_ul').append(li);
@@ -60,7 +70,7 @@ function submitName(){//提交昵称
 	} else{
 		$('#nametips').html("请稍候");
 		var p = new Promise(function(resolve, reject){
-			newnameRef = myNamelistRef.push(name, function(e){
+			newnameRef = myNamelistRef.push({'roomnumber': chatroom, 'name': name}, function(e){
 				if(e){
 					alert("啊哦，出错了，请刷新重试");
 				}
@@ -71,27 +81,27 @@ function submitName(){//提交昵称
 		});
 		p.then(function(name){//异步操作：成功push之后再次检查列表是否有重名，从而避免两台机器同时用相同昵称登录时出现重名的情况
 			myNamelistRef.once('value', function(snapshot){
-				namelist = snapshot.val();
-				for (var key in namelist){
-					if (namelist.hasOwnProperty(key)){
-						if (namelist[key] == name){
-							if (key != newnameRef.key()){
+				snapshot.forEach(function(childsnapshot){
+					var childData = childsnapshot.val();
+					var key = childsnapshot.key();
+					if (childData.name == name){
+						if (key != newnameRef.key()){
 								newnameRef.remove();
 								$('#nametips').html("该昵称已被占用，请重新输入");
-							}else{
-								$('#inputname').animate({opacity: '0'}, 'normal', 'linear', function(){
-									$('#inputname').css('visibility', 'hidden');
-									$('.shelter').animate({opacity: '0'}, 'normal', 'linear', function(){
-										$('.shelter').css('visibility', 'hidden');
-									});
-								});//淡出效果（异步操作）
-								myName = name;
-								newnameRef.onDisconnect().remove();
-							}
-							break;
+						}else{
+							$('#inputname').animate({opacity: '0'}, 'normal', 'linear', function(){
+								$('#inputname').css('visibility', 'hidden');
+								$('.shelter').animate({opacity: '0'}, 'normal', 'linear', function(){
+									$('.shelter').css('visibility', 'hidden');
+								});
+							});//淡出效果（异步操作）
+							myName = name;
+							newnameRef.onDisconnect().remove();
+							myNameRef = newnameRef;
 						}
+						break;
 					}
-				}
+				});
 			});
 		});
 	}
@@ -99,7 +109,7 @@ function submitName(){//提交昵称
 function ifExist(name){//在本地列表中检查昵称是否已存在
 	for (var key in namelist){
 		if (namelist.hasOwnProperty(key)){
-			if(namelist[key] == name){
+			if(namelist[key].name == name){
 				return true;
 			}
 		}
@@ -116,5 +126,35 @@ function send(){//发送消息
 		}else{
 			$('#messagetext').val('');
 		}
-	})
+	});
 }
+function enterChatroom(i){//进入聊天室i，
+	//处理当前所在聊天室的数据
+	chatroom = i;
+	$('#messagebox').html('');
+	//清除现有的Ref响应
+	myFirebaseRef.off();
+	myMessageRef.off();
+	//添加新的Ref响应（namelist只维护一个，只需更新message数据库即可）
+	myFirebaseRef = myFirebaseRootRef.child(chatroom.toString());
+	myMessageRef = myFirebaseRef.child('message');
+	myMessageRef.on('child_added', function(snapshot){//消息数据获取
+		var message = snapshot.val();
+		var name = message.name;
+		var text = message.text;
+		if (name != "管理员"){
+			p = document.createElement('p');
+			$(p).html(name + ':' + text);
+			$('#messagebox').append(p);
+			var h = document.getElementById("messagebox").scrollHeight;
+			$("#messagebox").animate({scrollTop: h.toString()}, 300);//滚动到底部
+		}
+	});
+	myNameRef.update({roomnumber: i},function(e){
+		if(e){
+			alert("切换聊天室失败，请刷新重试");
+		}else{
+			updateNamelist();
+		}
+	});
+};
