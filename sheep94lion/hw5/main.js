@@ -10,7 +10,7 @@ window.onload = function(){
 	inputName();
 	init();
 };
-function init(){
+function init(){//初始化页面
 	myFirebaseRef = myFirebaseRootRef.child(chatroom.toString());
 	myNamelistRef = myFirebaseRootRef.child('namelist');
 	myMessageRef = myFirebaseRef.child('message');
