@@ -2,13 +2,16 @@
 	font-family: "KaushanScript-Regular";
 	src: url(../fonts/KaushanScript-Regular.otf);
 }
+body{
+	margin: 0;
+}
 #canvas{
 	z-index: 0;
 	position:absolute;
 	left: 0px;
 	top: 0px;
 }
-#die,#startgame,#pause{
+#startgame{
 	z-index: 1;
 	cursor:default;
 	position:absolute;
@@ -22,18 +25,17 @@
 	color:#eef;
 	box-shadow: 7px 7px 10px rgba(255,255,255,0.3);
 	border:1px solid #fff;
+	-webkit-animation: flash_fish 4s linear 0s infinite alternate;
 }
 
-
-
-#instructions,#about,#score,#ranking{
+#instructions,#about{
 	z-index: 1;
 	font-size:45px;
 	margin-top:12px;
 }
 
 .title{
-	z-index: 1;
+	z-index: 2;
 	border-bottom:2px solid #430fc8;	
 	position: absolute;
 	height: auto;
@@ -139,8 +141,17 @@
 	box-shadow: 7px 7px 10px rgba(255,255,255,0.3);
 	border:1px solid #fff;
 	display:none;
+	-webkit-animation: imagetransfor 4s linear 0s infinite alternate;
 }
-
+#restart{
+	background-image: url(../images/again.png);
+	background-size: 100% 100%;
+	height: 60px;
+	width: 60px;
+	position: absolute;
+	z-index: 2;
+	-webkit-animation: flash_boat 4s linear 0s infinite alternate;
+}
 .info{
 	z-index: 1;
 	position:absolute;
@@ -157,11 +168,27 @@
 	margin-top:11px;
 	background:#227;
 }
-.right2{
+#hidden{
+	opacity: 0.5;
 	z-index: 1;
-	margin-top: 5px;
-	font-size: 22px;
-	margin-left: 20px;
+	background-color: #333;
+	position: absolute;
+	display: none;
+	margin: 0;
+}
+#fish_win{
+	z-index: 2;
+	background-image: url(../images/fish_win.jpg);
+	background-size: 100% 100%;
+	position: absolute;
+	-webkit-animation: imagetransfor 4s linear 0s infinite alternate;
+}
+#gun_win{
+	z-index: 2;
+	background-image: url(../images/gun_win.jpg);
+	background-size: 100% 100%;
+	position: absolute;
+	-webkit-animation: imagetransfor 4s linear 0s infinite alternate;
 }
 #footer{
 	position: absolute;

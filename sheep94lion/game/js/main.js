@@ -1,3 +1,4 @@
+//全局变量声明
 var _canvas;
 var _canvasContext = null;
 var  _canvasBuffer;
@@ -6,14 +7,16 @@ var DrawInterval;
 var gunPosition = 200;
 var keystate = [];
 var n_bullets = 0;
-
-var gun;
+//游戏元素
+var gun;//炮的对象
 var fish; //鱼的对象
 var buffboxes = [];//宝箱数组
-var bullets = [];
+var bullets = [];//子弹数组
 
 var lastbullettime = -100;
 
+
+//子弹的一些参数，包括他们加强或削弱时的数值
 var doublegun = false;
 var bullet_a = 0.2;
 var bullet_a_normal = 0.2;
@@ -33,6 +36,7 @@ var bullet_speed_buff = 22;
 var bullet_speed_debuff = 5;
 var gun_rv = 0.04;
 
+//图片资源文件
 var img_buffbox;//宝箱图片资源
 var img_fish; //鱼的图片
 var img_gun;//枪的图片
@@ -42,6 +46,8 @@ var GameLoop;//游戏主循环
 
 var current_y=400; //鼠标纵坐标
 var current_x=100; //鼠标横坐标
+
+//鱼的一些参数，包括他们加强或削弱时的数值
 var fish_recation = 60; //鱼的速度，值越小速度越大
 var fish_recation_normal = 60;
 var fish_recation_buff = 25;
@@ -55,21 +61,24 @@ var fish_size_normal = 35;
 var fish_size_buff = 10;
 var fish_size_debuff = 60;
 var startBackColor = ranint(0,359);
+
 var bg;
 var width=window.innerWidth;//屏幕宽度高度
 var height=window.innerHeight;
+
 //游戏状态全局变量
-var StartTime, TotalTime = 18000, TimeLeft;
+var StartTime, TotalTime = 180000, TimeLeft;
 var FishHealth = 100;
 var BulletHurt = 10;
 var BuffTime = 10000;
 var BuffTimeLeft, BuffTimeStart;
+var flag_startcount = 0;
 
 $(window).load(function(){
 	Start();
 });
 
-function StartMenu(callback){
+function StartMenu(callback){//展示开始选单界面
 	$('body').append('<canvas id="startBack"></canvas>');
 	$('body').append('<div id="welcome_fish"></div>');
 	$('body').append('<div id="welcome_boat"></div>');
@@ -86,7 +95,6 @@ function StartMenu(callback){
 		'<div id="startbutton" class="button">'+"START GAME"+'</div></div>');
 	$('body').append('<div class="moreinfo" id="left"></div>');
 	$('body').append('<div class="moreinfo" id="right"></div>');
-	$('body').append('<div class="moreinfo" id="right2"></div>');
 	$('body').append('<div id="footer">'+
 			'<p><i>Copyright © 2015 <a href="https://xujingao13.github.io" target="_blank" title="Jingao Xu">'+
 			'<strong>Jingao Xu</strong></a> &amp; '+
@@ -102,10 +110,6 @@ function StartMenu(callback){
 	$('#right').css('left',width/2+220+'px');
 	$('#right').css('width',width/2-240+'px');
 	$('#right').css('top',height/2-100+'px');
-	$('#right2').css('left',width/2+220+'px');
-	$('#right2').css('width',width/2-240+'px');
-	$('#right2').css('top',height/2-100+'px');
-	$('#right2').css('padding-top',0+'px');
 	$('.title').css('top',height/2-300+'px');
 	$('.title').css('left',width/2-$('.title').width()/2+'px');
 
@@ -116,11 +120,11 @@ function StartMenu(callback){
 	}, 1000/60);
 	$('#left').append('<b style="font-size:22px;"><p>INSTRUCTION</p></b>'+
 		'<p>一位玩家用鼠标控制鱼，另一位玩家控制枪炮</p>'+
-		'<p>如果时间到了,鱼没有死则鱼方获胜,如果鱼已经死了则炮放获胜</p>'+
+		'<p>如果时间到了,鱼没有死则鱼方获胜,如果鱼已经死了则炮方获胜</p>'+
 		'<p>在游戏过程中会随机掉落宝箱,接到有惊喜！</p>');
 	$('#right').append('<b style="font-size:22px;"><p>ABOUT US</p></b>'+
 		'<p>徐京傲 xujingao13@gmail.com</p>'+
-		'<p>赵毅 1111@1111.com</p>'+
+		'<p>赵毅 zhaoyi.yuan31@gmail.com</p>'+
 		'<p>Thanks for playing, wish a good Day!</p>');
 
 	$('#instructions').mouseenter(function()
@@ -150,11 +154,12 @@ function StartMenu(callback){
 		$('#footer').remove();
 		$('#welcome_fish').remove();
 		$('#welcome_boat').remove();
+		$('.moreinfo').remove();
 		window.clearInterval(timer);
 		callback();
 	});
-}
-function Start(){
+};
+function Start(){//启动
 	$(window).keydown(function(e){
 		keystate[e.which] = 1;
 		e.preventDefault();
@@ -180,17 +185,13 @@ function Start(){
 };
 function ranint(a,b){
 	return Math.floor(a+(b-a+1)*Math.random());
-}
+};
 function Initialize(){
 	gun = new GameElement('gun');
 	fish = new GameElement("fish");
 	DrawInterval = 1000 / 60;
-		//Initialize all game variables
 };
-function LoadContentAndStartMenu(){
-	//load content - graphics, sound etc.
-	//since all content is loaded run main game loop
-	//Calls RunGameLoop meithod every 'draw interval'
+function LoadContentAndStartMenu(){//加载资源文件，展示开始选单
 	async.parallel([
 		function(callback){
 			img_buffbox = new Image();
@@ -238,6 +239,10 @@ function LoadContentAndStartMenu(){
 		function(callback){
 			$('#hitbox').load(function(){callback()});
 			$('#hitbox').trigger('load');
+		},
+		function(callback){
+			$('#win').load(function(){callback()});
+			$('#win').trigger('load');
 		}
 		], 
 		function(err, results){
@@ -251,7 +256,7 @@ function LoadContentAndStartMenu(){
 		}
 	);
 };
-function RunGameLoop(){
+function RunGameLoop(){//游戏主循环
 	_canvas.width = window.innerWidth;
 	_canvas.height = window.innerHeight;
 	_canvasBuffer.width = window.innerWidth;
@@ -261,9 +266,7 @@ function RunGameLoop(){
 	Check();
 	Draw();
 };
-function Update(){
-	//update game varibles, handle user input, perform calculattions etc
-	TimeLeft = TotalTime - ($.now() - StartTime);
+function Update(){//更新游戏状态
 	BuffTimeLeft = BuffTime - ($.now() - BuffTimeStart);
 	//更新游戏
 	//更新子弹
@@ -274,6 +277,84 @@ function Update(){
 		}
 	}
 	bullets = bullets_new;
+	//检查游戏是否暂停
+	if(keystate[80] === 1){
+		Pause();
+		$('body').append('<div id="welcome_fish"></div>');
+		$('body').append('<div id="welcome_boat"></div>');
+		$('#welcome_boat').css("top", height/4+'px');
+		$('#welcome_boat').css("left", width/3-100+'px');
+		$('#welcome_fish').css("top", height/4+'px');
+		$('#welcome_fish').css("right", width/3-100+'px');
+		$('body').append('<div class="title">'+"GUN AND FISH"+'</div><div id="startgame">'
+			+'<div id="instructions">'+"ABOUT BUFF"+'</div>'+
+			'<div id="about">'+"ABOUT DEBUFF"+'</div>'+
+			'<div id="startbutton" class="button">'+"RESTART"+'</div></div>');
+		$('body').append('<div class="moreinfo" id="left"></div>');
+		$('body').append('<div class="moreinfo" id="right"></div>');
+		$('body').append('<div class="moreinfo" id="right2"></div>');
+		$('body').append('<div id="footer">'+
+				'<p><i>Copyright © 2015 <a href="https://xujingao13.github.io" target="_blank" title="Jingao Xu">'+
+				'<strong>Jingao Xu</strong></a> &amp; '+
+				'<a href="http://sheep94lion.github.io" target="_blank" title="Yi Zhao"><strong>Yi Zhao</strong></a></i>'+
+				'</p></div>');
+		$('#footer').css("top", height-150+'px');
+		$('#footer').css("width", width+'px');
+		$('#startgame').css('left',width/2-200+'px');
+		$('#startgame').css('top',height/2-100+'px');
+		$('#left').css('left','20px');
+		$('#left').css('width',width/2-240+'px');
+		$('#left').css('top',height/2-100+'px');
+		$('#right').css('left',width/2+220+'px');
+		$('#right').css('width',width/2-240+'px');
+		$('#right').css('top',height/2-100+'px');
+		$('#right2').css('left',width/2+220+'px');
+		$('#right2').css('width',width/2-240+'px');
+		$('#right2').css('top',height/2-100+'px');
+		$('#right2').css('padding-top',0+'px');
+		$('.title').css('top',height/2-300+'px');
+		$('.title').css('left',width/2-$('.title').width()/2+'px');
+
+		$('#left').append('<b style="font-size:22px;"><p>ABOUT BUFF</p></b>'+
+			'<p>如果吃到宝箱，一定几率自己获得BUFF</p>'+
+			'<p>鱼方BUFF：速度变快、体型变小</p>'+
+			'<p>枪方BUFF：子弹变密、子弹变大、子弹变快、子弹引力增加、炮筒数量增加</p>');
+		$('#right').append('<b style="font-size:22px;"><p>ABOUT DEBUFF</p></b>'+
+			'<p>如果吃到宝箱，一定几率会让对方获得DEBUFF</p>'+
+			'<p>鱼方DEBUFF：阻尼变小、速度变慢、体型变大</p>'+
+			'<p>炮方DEBUFF：子弹变疏、子弹斥力增加、子弹变慢、子弹变小</p>');
+
+		$('#instructions').mouseenter(function()
+		{
+			$('#instructions').css('background','#1954c0');
+			$('#left').fadeIn(500);
+		});
+		$('#instructions').mouseleave(function()
+		{
+			$('#instructions').css('background','#3369cd');
+			$('#left').fadeOut(300);
+		});
+		$('#about').mouseenter(function()
+		{
+			$('#about').css('background','#1954c0');
+			$('#right').fadeIn(500);
+		});
+		$('#about').mouseleave(function()
+		{
+			$('#about').css('background','#3369cd');
+			$('#right').fadeOut(300);
+		});
+		$('.button').click(function(){
+			$('#startgame').remove();
+			$('.title').remove();
+			$('#footer').remove();
+			$('#welcome_fish').remove();
+			$('#welcome_boat').remove();
+			$('.moreinfo').remove();
+			Restart();
+		});
+	}
+	//生成新子弹
 	if(keystate[32] === 1 && $.now() - lastbullettime >= 1000 / bullets_per_second){
 		lastbullettime = $.now();
 		var bullet = new GameElement('bullet');
@@ -337,11 +418,100 @@ function Update(){
 };
 function Check(){
 	//检查游戏是否结束
-	if(FishHealth === 0)
-		alert("鱼已死，勿念");
-	if(TimeLeft <= 11000){
+	if(FishHealth === 0){
+		Pause();
+		SoundEffect("win");
+		$('body').append('<div id="hidden"></div>');
+		$('body').append('<div id="gun_win"></div>');
+		$('body').append('<div id="welcome_boat"></div>');
+		$('body').append('<div id="restart"></div>')
+		$('#restart').css({cursor:'pointer'});
+		$('#hidden').css("height", height+'px');
+		$('#hidden').css("width", width+'px');
+		$('#hidden').fadeIn(1000);
+		$('#gun_win').css("width", width/3+'px');
+		$('#gun_win').css("height", height*3/8+'px');
+		$('#gun_win').css("top", height-200+'px');
+		$('#gun_win').css("left", width/2-$('#gun_win').width()/2+'px');
+		var win_top = height/2-100;
+		$('#gun_win').animate({
+			top: win_top+'px'
+		},1000,function(){
+			$('body').append('<div class="title">Gun is winner!</div>');
+			$('.title').animate({
+				top: height/2-300+'px',
+				left: width/2-$('.title').width()/2+'px',
+				fontSize: '80px'
+			},1000);
+			$('#welcome_boat').animate({
+				top: height/4+'px',
+				right: width/4-100+'px'
+			},1000);
+			$('#restart').animate({
+				bottom: height/4+'px',
+				left: width/4-100+'px'
+			},1000);
+		});
+		$('#restart').click(function(){
+			$('#restart').remove();
+			$('#hidden').fadeOut(500,function(){
+				$('#hidden').remove();
+			});
+			$('#welcome_boat').remove();
+			$('#gun_win').remove();
+			$('.title').remove();
+			RePlay();
+		});
+	}
+	if(TimeLeft < 0){
+		Pause();
+		SoundEffect("win");
+		$('body').append('<div id="hidden"></div>');
+		$('body').append('<div id="fish_win"></div>');
+		$('body').append('<div id="welcome_fish"></div>');
+		$('body').append('<div id="restart"></div>')
+		$('#restart').css({cursor:'pointer'});
+		$('#hidden').css("height", height+'px');
+		$('#hidden').css("width", width+'px');
+		$('#hidden').fadeIn(1000);
+		$('#fish_win').css("width", width/3+'px');
+		$('#fish_win').css("height", height*3/8+'px');
+		$('#fish_win').css("top", height-200+'px');
+		$('#fish_win').css("left", width/2-$('#fish_win').width()/2+'px');
+		var win_top = height/2-100;
+		$('#fish_win').animate({
+			top: win_top+'px'
+		},1000,function(){
+			$('body').append('<div class="title">Fish is winner!</div>');
+			$('.title').animate({
+				top: height/2-300+'px',
+				left: width/2-$('.title').width()/2+'px',
+				fontSize: '80px'
+			},1000);
+			$('#welcome_fish').animate({
+				top: height/4+'px',
+				right: width/4-100+'px'
+			},1000);
+			$('#restart').animate({
+				bottom: height/4+'px',
+				left: width/4-100+'px'
+			},1000);
+		});
+		$('#restart').click(function(){
+			$('#restart').remove();
+			$('#hidden').fadeOut(500,function(){
+				$('#hidden').remove();
+			});
+			$('#welcome_fish').remove();
+			$('#fish_win').remove();
+			$('.title').remove();
+			RePlay();
+		});
+	}
+	//检查是否倒计时
+	if(TimeLeft <= 11000 && flag_startcount === 0){
 		$('#counting').trigger('play');
-		$('#counting').unbind('play');
+		flag_startcount = 1;
 	}
 	//检查鱼和子弹有没有碰撞
 	var bullets_new = [];
@@ -410,7 +580,7 @@ function Check(){
 	}
 	buffboxes = buffboxes_new;
 }
-function Draw(){
+function Draw(){//绘制游戏界面
 	_canvasBufferContext.clearRect(0, 0, _canvasBuffer.width, _canvasBuffer.height);
 	_canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
 	drawBackGround(_canvasBufferContext);
@@ -425,10 +595,9 @@ function Draw(){
 		buffboxes[i].drawElem();
 	}
 	_canvasContext.drawImage(_canvasBuffer, 0, 0);
-	//draw game frame
 };
 
-function Buff(name){
+function Buff(name){//增强对象
 	is_buff = true;
 	if(name == 'gun'){
 		switch(Math.floor(Math.random() * 1000) % 5){
@@ -467,7 +636,7 @@ function Buff(name){
 	}
 }
 
-function Debuff(name){
+function Debuff(name){//削弱对象
 	is_buff = true;
 	if(name == 'gun'){
 		switch(Math.floor(Math.random() * 1000) % 4){
@@ -502,7 +671,44 @@ function Debuff(name){
 	}
 
 }
-function SoundEffect(soundname){
+function Pause(){//游戏暂停
+	PauseStart = $.now();
+	clearInterval(GameLoop);
+	if (TimeLeft <= 11000){
+		$('#counting').trigger('pause');
+	}
+};
+function Restart(){//游戏继续
+	PauseEnd = $.now();
+	StartTime += PauseEnd - PauseStart;
+	GameLoop = setInterval(RunGameLoop, DrawInterval);
+	if (TimeLeft <= 11000){
+		$('#counting').trigger('play');
+	}
+};
+function RePlay(){//重玩
+	n_bullets = 0;
+	flag_startcount = 0;
+	buffboxes = [];
+	bullets = [];
+	lastbullettime = -100;
+	doublegun = false;
+	bullet_a = bullet_a_normal;
+	bullets_per_second = bullets_per_second_normal;
+	bullet_size = bullet_size_normal;
+	bullet_speed = bullet_speed_normal;
+	fish_recation = fish_recation_normal;
+	fish_stop = fish_stop_normal;
+	fish_size = fish_size_normal;
+	FishHealth = 100;
+	StartTime = $.now();
+	clearInterval(GameLoop);
+	GameLoop = setInterval(RunGameLoop, DrawInterval);
+	$('#counting').prop('currentTime', 0);
+	$('#counting').trigger('pause');
+	$('#background').prop('currentTime', 0);
+};
+function SoundEffect(soundname){//声效
 	if(soundname == 'gunshoot'){
 		$('#gunshoot').trigger('play');
 	}else if(soundname == 'blackhit'){
@@ -511,10 +717,12 @@ function SoundEffect(soundname){
 		$('#greenhit').trigger('play');
 	}else if(soundname == 'hitbox'){
 		$('#hitbox').trigger('play');
+	}else if(soundname == 'win'){
+		$('#win').trigger('play');
 	}
-}
+};
 
-function GameElement(classname){
+function GameElement(classname){//游戏元素类
 	this.classname = classname;
 	this.x = 0;
 	this.y = 0;
@@ -538,9 +746,9 @@ function GameElement(classname){
 	else if (classname == 'buffbox'){
 		this.drawElem = drawBuffbox;
 	}
-}
+};
 
-function UpdateElem(item){
+function UpdateElem(item){//更新元素属性
 	if (item.classname == 'gun'){
 		if(keystate[38] === 1){
 			item.rv = -gun_rv;
@@ -595,7 +803,7 @@ function UpdateElem(item){
 		item.x += item.vx;
 		item.y += item.vy;
 	}
-}
+};
 function hsvToRGB(h,s,v){
 	var select = Math.floor(h/60);
 	var f = h/60 - select;
@@ -612,8 +820,8 @@ function hsvToRGB(h,s,v){
 			{r:u,g:p,b:q}
 	];
 	return res[select];
-}
-function drawBackGround(cv){	
+};
+function drawBackGround(cv){//绘制背景
 	var b=hsvToRGB((startBackColor+$.now()/100)%360,0.14,0.92);//上方低饱和度颜色
 	var c=hsvToRGB((startBackColor+$.now()/100)%360,0.57,0.77);//下方高饱和度颜色
 	bg=cv.createLinearGradient(0,0,0,height);
@@ -623,10 +831,10 @@ function drawBackGround(cv){
 	cv.fillStyle=bg;
 	cv.fillRect(0,0,width,height);
 	cv.restore();
-}
-function drawInformation(){
+};
+function drawInformation(){//绘制游戏信息
 	_canvasBufferContext.save();
-	var txt = "FishHealth: "
+	var txt = "Press 'P' to get more information and PAUSE. FishHealth: "
 	for(var i = 0; i < FishHealth/10; i++){
 		txt+='❤';
 	}
@@ -642,7 +850,9 @@ function drawInformation(){
 	_canvasBufferContext.fillStyle='rgba(221,51,85,0.5)';
 	_canvasBufferContext.fillText(txt,30,30);
 	_canvasBufferContext.restore();
-}
+};
+
+//画枪
 function drawGun(){
 	_canvasBufferContext.save();
 	_canvasBufferContext.translate(0, gunPosition);
@@ -656,7 +866,7 @@ function drawGun(){
 	if(doublegun){
 		_canvasBufferContext.drawImage(img_gunplatform, -40, gunPosition);
 	}
-}
+};
 //画鱼
 function drawFish(){
 	var size = this.size;
@@ -668,10 +878,10 @@ function drawFish(){
 	_canvasBufferContext.rotate(di);
 	_canvasBufferContext.drawImage(img_fish, -size, -size, 2 * size, 2 * size);
 	_canvasBufferContext.restore();
-}
+};
 //画鼠标十字
 function drawCursor(){
-	$('html').css({cursor:'none'});
+	$('#canvas').css({cursor:'none'});
 	_canvasBufferContext.save();
 	_canvasBufferContext.beginPath();
 	_canvasBufferContext.lineWidth = 1;
@@ -687,7 +897,8 @@ function drawCursor(){
 	_canvasBufferContext.lineTo(current_x-2*fish.size,current_y+u);
 	_canvasBufferContext.stroke();
 	_canvasBufferContext.restore();
-}
+};
+//画子弹
 function drawBullet(){
 	var bulletpath = new Path2D();
 	bulletpath.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -698,15 +909,16 @@ function drawBullet(){
 	}
 	
 	_canvasBufferContext.fill(bulletpath);	
-}
+};
 
+//画宝箱
 function drawBuffbox(){
 	_canvasBufferContext.drawImage(img_buffbox, this.x - 29, this.y - 20);
-}
-
+};
+//判断两个元素是否发生碰撞
 function ifCollision(e1, e2){//判断两元素是否碰撞
 	var dx = e1.x - e2.x;
 	var dy = e1.y - e2.y;
 	var dis = Math.sqrt(dx * dx + dy * dy);
 	return (dis < e1.size + e2.size - 3);
-}
+};
