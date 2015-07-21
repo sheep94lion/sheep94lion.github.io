@@ -1,0 +1,174 @@
+@font-face{
+	font-family: "KaushanScript-Regular";
+	src: url(../fonts/KaushanScript-Regular.otf);
+}
+#canvas{
+	z-index: 0;
+	position:absolute;
+	left: 0px;
+	top: 0px;
+}
+#die,#startgame,#pause{
+	z-index: 1;
+	cursor:default;
+	position:absolute;
+	width:400px;
+	height:200px;
+	background:#3369cd;
+	opacity:0.7;
+	text-align:center;
+	font-family: 'American Typewriter' sans-serif "consolas";;
+	font-size:45px;
+	color:#eef;
+	box-shadow: 7px 7px 10px rgba(255,255,255,0.3);
+	border:1px solid #fff;
+}
+
+
+
+#instructions,#about,#score,#ranking{
+	z-index: 1;
+	font-size:45px;
+	margin-top:12px;
+}
+
+.title{
+	z-index: 1;
+	border-bottom:2px solid #430fc8;	
+	position: absolute;
+	height: auto;
+	width: 500px;
+	text-align: center;
+	font-family: "KaushanScript-Regular";
+	font-size:60px;
+	font-weight: bold;
+	color:#430fc8;
+	-webkit-animation: imagetransfor 4s linear 0s infinite alternate;
+}
+@-webkit-keyframes imagetransfor{
+	0% {	    
+	    -webkit-transform: scale(0.90) rotate(-4deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+	25% {
+	    -webkit-transform: scale(0.95) rotate(-2deg);
+	    -webkit-animation-timing-function: ease-out;
+	}
+	50% {
+	    -webkit-transform: scale(1.00) rotate(0deg);	
+	}
+	75% {
+	    -webkit-transform: scale(0.95) rotate(2deg);
+	    -webkit-animation-timing-function: ease-out;	
+	}
+	100% {
+		-webkit-transform: scale(0.90) rotate(4deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+}
+
+#welcome_fish{
+	background-image: url(../images/welcome_fish.png);
+	background-size: 100% 100%;
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	-webkit-animation: flash_fish 4s linear 0s infinite alternate;
+}
+@-webkit-keyframes flash_fish{
+	0% {	    
+	    -webkit-transform: scale(0.90) rotate(8deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+	25% {
+	    -webkit-transform: scale(1.20) rotate(4deg);
+	    -webkit-animation-timing-function: ease-out;
+	}
+	50% {
+	    -webkit-transform: scale(1.50) rotate(0deg);	
+	}
+	75% {
+	    -webkit-transform: scale(1.20) rotate(-4deg);
+	    -webkit-animation-timing-function: ease-out;	
+	}
+	100% {
+		-webkit-transform: scale(0.90) rotate(-8deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+}
+#welcome_boat{
+	background-image: url(../images/welcome_gun.png);
+	background-size: 100% 100%;
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	-webkit-animation: flash_boat 4s linear 0s infinite alternate;
+}
+@-webkit-keyframes flash_boat{
+	0% {	    
+	    -webkit-transform: scale(0.90) rotate(-8deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+	25% {
+	    -webkit-transform: scale(1.20) rotate(-4deg);
+	    -webkit-animation-timing-function: ease-out;
+	}
+	50% {
+	    -webkit-transform: scale(1.50) rotate(0deg);	
+	}
+	75% {
+	    -webkit-transform: scale(1.20) rotate(4deg);
+	    -webkit-animation-timing-function: ease-out;	
+	}
+	100% {
+		-webkit-transform: scale(0.90) rotate(8deg);
+		-webkit-animation-timing-function: ease-in;
+	}
+}
+.moreinfo/*两侧的窗口*/{
+	z-index: 1;
+	position:absolute;
+	font-family: 'American Typewriter' sans-serif "consolas";
+	font-size:18px;
+	height:200px;
+	background:#1954c0;
+	opacity:0.7;
+	padding-left:10px;
+	text-align:left;
+	color:#eef;
+	box-shadow: 7px 7px 10px rgba(255,255,255,0.3);
+	border:1px solid #fff;
+	display:none;
+}
+
+.info{
+	z-index: 1;
+	position:absolute;
+	text-align:center;
+	font-family: 'American Typewriter' sans-serif "consolas";
+	font-size:18px;
+	width:200px;
+	height:100px;
+	color:#3369cd;
+}
+
+.button{
+	z-index: 1;
+	margin-top:11px;
+	background:#227;
+}
+.right2{
+	z-index: 1;
+	margin-top: 5px;
+	font-size: 22px;
+	margin-left: 20px;
+}
+#footer{
+	position: absolute;
+	height: 50px;
+}
+#footer p {
+	font-size: 36px;
+	font-family: 'American Typewriter' sans-serif "consolas";
+	text-align: center;
+}
